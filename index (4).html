@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Jovin Jijo</title>
+<meta name="description" content="Jovin Jijo — 14-year-old developer, chess player, maker."/>
+<link rel="icon" type="image/png" href="/favicon.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#020b12;
+  --surface:#071e30;
+  --border:#0d3348;
+  --text:#d6eef8;
+  --muted:#2e6a8a;
+  --accent:#00d4c8;
+  --accent2:#0096ff;
+  --hover:#008f86;
+  --glow:rgba(0,212,200,.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{background:var(--bg);color:var(--text);font-family:'DM Mono','Courier New',monospace;font-size:13px;overflow-x:hidden}
+
+/* TOPBAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:400;height:32px;background:transparent;display:flex;align-items:center;justify-content:space-between;padding:0 44px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);opacity:1;transition:opacity .6s ease}
+.topbar.hide{opacity:0;pointer-events:none}
+.topbar-left{display:flex;align-items:center;gap:10px}
+.topbar-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.collab-text{color:var(--accent)}
+#liveClock{color:var(--accent);font-size:10px;letter-spacing:.12em}
+@media(max-width:640px){.topbar{display:none}}
+
+/* NAV */
+nav{position:fixed;top:32px;left:0;right:0;z-index:300;display:flex;align-items:flex-start;justify-content:flex-end;padding:16px 44px 0;pointer-events:all}
+.nav-wrap{position:relative;display:flex;flex-direction:column;align-items:flex-end}
+.nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;cursor:pointer;padding:5px;background:var(--surface);border:1px solid var(--border);transition:border-color .12s}
+.nav-burger:hover{border-color:var(--accent)}
+.nav-burger span{display:block;width:100%;height:1px;background:var(--text)}
+.nav-stack{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+nav.scrolled .nav-burger{display:flex}
+nav.scrolled .nav-stack{display:none}
+nav.scrolled .nav-stack.open{display:flex;position:absolute;top:44px;right:0;background:var(--surface);border:1px solid var(--border);padding:16px 24px;gap:10px;min-width:180px;z-index:500;align-items:flex-end}
+.nav-stack a{display:flex;align-items:center;gap:8px;padding:2px 0;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .12s;white-space:nowrap;text-shadow:0 1px 8px rgba(2,11,18,.9)}
+.nav-stack a .arr{color:var(--accent);opacity:0;transition:opacity .15s,transform .15s}
+.nav-stack a:hover{color:var(--text)}
+.nav-stack a:hover .arr,.nav-stack a.active .arr{opacity:1;transform:translateX(3px)}
+.nav-stack a.active{color:var(--accent)}
+.page-offset{height:56px}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}
+.reveal-d2{transition-delay:.22s}
+.reveal-d3{transition-delay:.34s}
+.reveal-d4{transition-delay:.46s}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-start;padding:44px 44px 80px;border-bottom:1px solid var(--border)}
+.hero-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:24px;display:flex;align-items:center;gap:14px}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--muted);flex-shrink:0}
+.hero-name{font-family:'Bebas Neue','Arial Black',sans-serif;font-size:clamp(60px,12vw,160px);line-height:.9;letter-spacing:-.01em;color:var(--text)}
+.hero-name .acc{color:var(--accent);text-shadow:0 0 40px rgba(0,212,200,.35)}
+.hero-name .it{font-family:'DM Serif Display',Georgia,serif;font-style:italic;font-size:.65em}
+.hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;margin-top:48px;flex-wrap:wrap;gap:24px}
+.hero-desc{max-width:380px;color:var(--muted);line-height:1.9;border-left:1px solid var(--border);padding-left:20px;font-size:13px}
+
+/* SECTIONS */
+.section{padding:88px 44px;border-bottom:1px solid var(--border)}
+.sec-header{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--border);padding-bottom:20px;margin-bottom:52px}
+.sec-num{font-size:11px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;flex-shrink:0}
+.sec-title{font-family:'Bebas Neue','Arial Black',sans-serif;font-size:clamp(48px,8vw,100px);line-height:.95;color:var(--text)}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:64px}
+.about-intro{font-family:'DM Serif Display',Georgia,serif;font-size:clamp(20px,2.5vw,30px);font-style:italic;line-height:1.45;color:var(--text);margin-bottom:24px}
+.about-intro em{color:var(--accent);font-style:normal}
+.about-body{color:var(--muted);line-height:1.95}
+.about-body p{margin-bottom:14px}
+.reality-strip{margin-top:28px;padding:20px 24px;border:1px solid var(--border);background:var(--surface);display:flex;flex-direction:column;gap:10px}
+.reality-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.reality-item{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--muted)}
+.reality-item::before{content:'->';color:var(--accent);flex-shrink:0}
+.stats-row{display:flex;gap:40px;margin-top:36px;padding-top:28px;border-top:1px solid var(--border);flex-wrap:wrap}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:52px;line-height:1;color:var(--accent);display:block}
+.stat-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.info-block{margin-bottom:28px}
+.info-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.info-val{font-size:14px;color:var(--text)}
+.info-val a{color:var(--accent);text-decoration:none}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.tag{padding:5px 12px;border:1px solid var(--border);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transition:all .12s;cursor:default}
+.tag:hover{border-color:var(--accent);color:var(--accent);background:var(--glow)}
+
+/* PROJECTS */
+.proj-drag-hint{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.proj-drag-hint::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--border),transparent)}
+.proj-scroll-outer{overflow-x:auto;overflow-y:hidden;cursor:grab;scrollbar-width:none}
+.proj-scroll-outer::-webkit-scrollbar{display:none}
+.proj-scroll-outer:active{cursor:grabbing}
+.proj-scroll-track{display:flex;gap:2px;width:max-content}
+.proj-card{background:var(--surface);border:1px solid var(--border);padding:36px;position:relative;overflow:hidden;width:380px;flex-shrink:0;min-height:280px;text-decoration:none;display:block;color:inherit;transition:border-color .26s}
+.proj-card::after{content:'';position:absolute;inset:0;background:var(--hover);transform:scaleY(0);transform-origin:bottom;transition:transform .26s ease;z-index:0}
+.proj-card:hover{border-color:var(--hover)}
+.proj-card:hover::after{transform:scaleY(1)}
+.proj-card>*{position:relative;z-index:1}
+.proj-card:hover .pn,.proj-card:hover .ptitle,.proj-card:hover .ptag,.proj-card:hover .pdesc,.proj-card:hover .parr{color:var(--bg)!important;border-color:rgba(0,0,0,.2)!important}
+.pn{font-size:10px;color:var(--muted);letter-spacing:.15em;margin-bottom:24px;transition:color .26s}
+.ptitle{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,3vw,42px);line-height:1;color:var(--text);margin-bottom:12px;transition:color .26s}
+.ptag{display:inline-block;padding:4px 10px;border:1px solid var(--border);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;transition:all .26s}
+.pdesc{font-size:12px;color:var(--muted);line-height:1.8;transition:color .26s}
+.parr{position:absolute;bottom:28px;right:28px;font-size:20px;color:var(--accent);transition:color .26s,transform .18s}
+.proj-card:hover .parr{transform:translate(4px,-4px)}
+.proj-ghost{background:transparent!important;border-style:dashed!important;border-color:#0a2233!important}
+.proj-ghost::after{display:none}
+.proj-ghost:hover{border-color:#0a2233!important}
+.proj-ghost .pn,.proj-ghost .ptitle,.proj-ghost .ptag,.proj-ghost .pdesc,.proj-ghost .parr{color:#0d3348!important}
+
+/* BLOG */
+.blog-list{display:flex;flex-direction:column}
+.blog-item{display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding:24px 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:padding-left .14s}
+.blog-item:first-child{border-top:1px solid var(--border)}
+.blog-item:hover{padding-left:16px}
+.btitle{font-family:'Bebas Neue',sans-serif;font-size:clamp(20px,2.8vw,32px);line-height:1;transition:color .12s}
+.blog-item:hover .btitle{color:var(--accent)}
+.bmeta{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;flex-shrink:0}
+
+/* SOCIAL */
+.social-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.soc-card{border:1px solid var(--border);padding:36px 28px;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:var(--text);position:relative;background:var(--surface);overflow:hidden;transition:border-color .14s}
+.soc-card::before{content:'';position:absolute;inset:0;background:var(--hover);opacity:0;transition:opacity .14s}
+.soc-card:hover{border-color:var(--hover)}
+.soc-card:hover::before{opacity:1}
+.soc-card>*{position:relative;z-index:1}
+.soc-card:hover .si,.soc-card:hover .sname,.soc-card:hover .shandle,.soc-card:hover .sarr{color:var(--bg)!important}
+.si{font-size:20px;color:var(--accent);transition:color .14s}
+.sname{font-family:'Bebas Neue',sans-serif;font-size:30px;line-height:1;transition:color .14s}
+.shandle{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);transition:color .14s}
+.sarr{position:absolute;top:20px;right:20px;font-size:14px;color:var(--muted);transition:color .14s,transform .18s}
+.soc-card:hover .sarr{transform:translate(3px,-3px)}
+
+/* CONTACT */
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.contact-big{font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,7vw,100px);line-height:.9;color:var(--text);margin-bottom:32px}
+.contact-big span{color:var(--accent)}
+.contact-form{display:flex;flex-direction:column;gap:2px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.field{display:flex;flex-direction:column}
+.field label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);padding:10px 16px 6px;background:var(--surface);border:1px solid var(--border);border-bottom:none}
+.field input,.field textarea{background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:'DM Mono',monospace;font-size:13px;padding:12px 16px;outline:none;resize:none;transition:border-color .12s;width:100%}
+.field input::placeholder,.field textarea::placeholder{color:var(--muted);opacity:.5}
+.field input:focus,.field textarea:focus{border-color:var(--accent)}
+.field textarea{min-height:130px;line-height:1.7}
+.form-submit{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:2px}
+.btn-send{display:flex;align-items:center;gap:10px;padding:16px 28px;background:var(--accent);color:var(--bg);border:none;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .12s;flex-shrink:0}
+.btn-send:hover{background:var(--hover)}
+.btn-send:disabled{opacity:.5;cursor:not-allowed}
+.form-status{font-size:11px;letter-spacing:.1em;text-transform:uppercase;min-height:16px}
+.form-status.ok{color:var(--accent)}
+.form-status.err{color:#ff5c3a}
+.contact-links-col{display:flex;flex-direction:column;gap:2px}
+.contact-note{font-size:13px;color:var(--muted);line-height:1.9;margin-bottom:24px}
+.clink{padding:16px 26px;border:1px solid var(--border);display:flex;align-items:center;gap:9px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;background:var(--surface);transition:border-color .12s,color .12s,background .12s}
+.clink:hover{border-color:var(--accent);color:var(--accent);background:var(--glow)}
+.clink .arr{margin-left:auto;transition:transform .18s}
+.clink:hover .arr{transform:translate(3px,-3px)}
+
+/* FOOTER CTA */
+.footer-cta{padding:100px 44px 60px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;background:var(--surface)}
+.footer-cta::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(0,212,200,.04) 0%,transparent 70%)}
+.fcta-big{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,10vw,160px);line-height:.88;color:var(--text);margin-bottom:40px}
+.fcta-big .acc{color:var(--accent);text-shadow:0 0 60px rgba(0,212,200,.25)}
+.fcta-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.fcta-sub{font-size:13px;color:var(--muted);line-height:1.8;max-width:360px}
+.btn-cta{display:inline-flex;align-items:center;gap:14px;padding:18px 40px;border:1px solid var(--accent);color:var(--accent);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;background:transparent;transition:color .14s;position:relative;overflow:hidden}
+.btn-cta::before{content:'';position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .2s ease;z-index:0}
+.btn-cta:hover::before{transform:scaleX(1)}
+.btn-cta:hover{color:var(--bg)}
+.btn-cta span{position:relative;z-index:1}
+
+footer{padding:20px 44px;display:flex;justify-content:space-between;align-items:center;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+@media(max-width:860px){
+  .about-grid{grid-template-columns:1fr;gap:40px}
+  .social-grid{grid-template-columns:1fr 1fr}
+  .contact-layout{grid-template-columns:1fr;gap:44px}
+  .form-row{grid-template-columns:1fr}
+  .footer-cta{padding:60px 20px 40px}
+}
+@media(max-width:640px){
+  nav{padding:16px 20px 0}
+  .page-offset{height:48px}
+  #hero{padding:32px 20px 60px}
+  .section{padding:64px 20px}
+  .social-grid{grid-template-columns:1fr}
+  footer{padding:16px 20px;flex-direction:column;gap:6px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar" id="topbar">
+  <div class="topbar-left">
+    <div class="topbar-dot"></div>
+    <span class="collab-text">Open to collab</span>
+  </div>
+  <span id="liveClock"></span>
+</div>
+
+<nav id="mainNav">
+  <div class="nav-wrap">
+    <button class="nav-burger" id="navBurger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-stack" id="navStack">
+      <a href="#hero"><span class="arr">-&gt;</span>Home</a>
+      <a href="#about"><span class="arr">-&gt;</span>About Me</a>
+      <a href="#projects"><span class="arr">-&gt;</span>Projects</a>
+      <a href="#blog"><span class="arr">-&gt;</span>Blog</a>
+      <a href="#social"><span class="arr">-&gt;</span>Social</a>
+      <a href="#contact"><span class="arr">-&gt;</span>Contact</a>
+    </div>
+  </div>
+</nav>
+<div class="page-offset"></div>
+
+<section id="hero">
+  <div class="hero-eyebrow">Portfolio &middot; 2026</div>
+  <div class="hero-name">JOVIN<br><span class="it">Jijo</span><span class="acc">.</span></div>
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      I'm 14 and I make stuff. Websites, scripts, hardware &mdash; whatever sounds cool.<br><br>
+      Still in high school. Learning as I go. No idea what I'm doing half the time, but the other half it works.
+    </p>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="sec-header reveal">
+    <span class="sec-num">01 /</span>
+    <h2 class="sec-title">About</h2>
+  </div>
+  <div class="about-grid">
+    <div>
+      <p class="about-intro reveal reveal-d1">
+        Hey, I'm Jovin. I'm <em>14</em>, I like building things, and I have no idea what I'm doing &mdash; but it's going alright.
+      </p>
+      <div class="about-body reveal reveal-d2">
+        <p>I started coding because I was bored and curious. Watched some tutorials, broke a lot of things, and eventually stuff started working. Now I actually kind of know what I'm doing.</p>
+        <p>When I'm not coding I'm playing chess, going for runs, tinkering with hardware, or taking photos of cars. I do robotics too. Basically if it sounds fun I'll try it.</p>
+        <p>I made this portfolio because why not. It's something to show people when they ask what I do.</p>
+      </div>
+
+      <div class="stats-row reveal reveal-d4">
+        <div><span class="stat-num" data-count="14">0</span><span class="stat-label">Years Old</span></div>
+        <div><span class="stat-num" data-count="3">0</span><span class="stat-label">Projects Built</span></div>
+        <div><span class="stat-num" data-count="1">0</span><span class="stat-label">Year Coding</span></div>
+      </div>
+    </div>
+    <div class="reveal reveal-d2">
+      <div class="info-block"><div class="info-label">Name</div><div class="info-val">Jovin Jijo</div></div>
+      <div class="info-block"><div class="info-label">Age &amp; Grade</div><div class="info-val">14 &middot; Freshman</div></div>
+      <div class="info-block"><div class="info-label">Email</div><div class="info-val"><a href="mailto:jovinjijo18@gmail.com">jovinjijo18@gmail.com</a></div></div>
+      <div class="info-block">
+        <div class="info-label">Interests</div>
+        <div class="tags">
+          <span class="tag">Coding</span><span class="tag">Design</span><span class="tag">Chess</span><span class="tag">Running</span><span class="tag">Robotics</span><span class="tag">Car Photography</span><span class="tag">Music</span><span class="tag">Gaming</span>
+        </div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Currently Learning</div>
+        <div class="tags">
+          <span class="tag">HTML &amp; CSS</span><span class="tag">JavaScript</span><span class="tag">Python</span><span class="tag">UI Design</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="projects">
+  <div class="sec-header reveal"><span class="sec-num">02 /</span><h2 class="sec-title">Projects</h2></div>
+  <div class="proj-drag-hint reveal reveal-d1">Drag to explore</div>
+  <div class="proj-scroll-outer reveal reveal-d2" id="projOuter">
+    <div class="proj-scroll-track">
+      <a class="proj-card" href="https://jovin-jijo.github.io/algorithmic-fairness-audit" target="_blank">
+        <div class="pn">001</div>
+        <div class="ptitle">Fairness Audit Tool</div>
+        <span class="ptag">Python &middot; ML &middot; Data</span>
+        <p class="pdesc">Audits ML models for racial bias in mortgage lending using the HMDA dataset. Detects disparate impact and compares biased vs. debiased models.</p>
+        <div class="parr">-&gt;</div>
+      </a>
+      <div class="proj-card">
+        <div class="pn">002</div>
+        <div class="ptitle">This Portfolio</div>
+        <span class="ptag">Design &middot; Web</span>
+        <p class="pdesc">Designed and built from scratch. Deep-sea aesthetic, scroll reveals, drag carousel &mdash; all hand-coded.</p>
+        <div class="parr">-&gt;</div>
+      </div>
+      <div class="proj-card proj-ghost">
+        <div class="pn">003</div>
+        <div class="ptitle">Shrinkflation Tracker</div>
+        <span class="ptag">C++ &middot; ESP32 &middot; Flask</span>
+        <p class="pdesc">ESP32-based device that measures product density and flags shrinkflation. First real hardware project &mdash; teaching myself C++ firmware as I go.</p>
+        <div class="parr">-&gt;</div>
+      </div>
+      <div class="proj-card proj-ghost">
+        <div class="pn">004</div>
+        <div class="ptitle">Magnetic Chessboard</div>
+        <span class="ptag">Raspberry Pi &middot; C++</span>
+        <p class="pdesc">A physical board that moves its own pieces via a CoreXY gantry. Most ambitious thing I've attempted &mdash; collision avoidance is the hard part.</p>
+        <div class="parr">-&gt;</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="blog">
+  <div class="sec-header reveal"><span class="sec-num">03 /</span><h2 class="sec-title">Blog</h2></div>
+  <div class="blog-list">
+    <a class="blog-item reveal reveal-d1" href="#" style="opacity:.22;pointer-events:none"><span class="btitle">No posts yet &mdash; Coming Soon</span><span class="bmeta">Soon</span></a>
+  </div>
+</section>
+
+<section class="section" id="social">
+  <div class="sec-header reveal"><span class="sec-num">04 /</span><h2 class="sec-title">Social</h2></div>
+  <div class="social-grid">
+    <a class="soc-card reveal reveal-d1" href="https://github.com/jovin-jijo" target="_blank"><span class="si">*</span><span class="sname">GitHub</span><span class="shandle">@jovin-jijo</span><span class="sarr">^</span></a>
+    <a class="soc-card reveal reveal-d2" href="https://instagram.com/jovin-jijo" target="_blank"><span class="si">@</span><span class="sname">Instagram</span><span class="shandle">@jovin-jijo</span><span class="sarr">^</span></a>
+    <a class="soc-card reveal reveal-d3" href="https://x.com/jovin_jijo" target="_blank"><span class="si">X</span><span class="sname">X / Twitter</span><span class="shandle">@jovin_jijo</span><span class="sarr">^</span></a>
+    <a class="soc-card reveal reveal-d1" href="https://linkedin.com/in/jovin-jijo" target="_blank"><span class="si">in</span><span class="sname">LinkedIn</span><span class="shandle">Jovin Jijo</span><span class="sarr">^</span></a>
+    <a class="soc-card reveal reveal-d2" href="https://youtube.com/@jovin-jijo" target="_blank"><span class="si">&gt;</span><span class="sname">YouTube</span><span class="shandle">@jovin-jijo</span><span class="sarr">^</span></a>
+    <a class="soc-card reveal reveal-d3" href="https://discord.com/users/imconcore" target="_blank"><span class="si">#</span><span class="sname">Discord</span><span class="shandle">imconcore</span><span class="sarr">^</span></a>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="sec-header reveal"><span class="sec-num">05 /</span><h2 class="sec-title">Contact</h2></div>
+  <div class="contact-layout">
+    <div>
+      <div class="contact-big reveal">Let's<br><span>Talk</span><br>-&gt;</div>
+      <div class="contact-form reveal reveal-d2">
+        <div class="form-row">
+          <div class="field"><label for="cf-name">Name</label><input id="cf-name" name="name" type="text" placeholder="Your name"/></div>
+          <div class="field"><label for="cf-email">Email</label><input id="cf-email" name="email" type="email" placeholder="your@email.com"/></div>
+        </div>
+        <div class="field"><label for="cf-subject">Subject</label><input id="cf-subject" name="subject" type="text" placeholder="What's this about?"/></div>
+        <div class="field"><label for="cf-msg">Message</label><textarea id="cf-msg" name="message" placeholder="Say something..."></textarea></div>
+        <div class="form-submit">
+          <button class="btn-send" id="sendBtn" type="button">Send Message -&gt;</button>
+          <span class="form-status" id="formStatus"></span>
+        </div>
+      </div>
+    </div>
+    <div class="contact-links-col reveal reveal-d2">
+      <p class="contact-note">Prefer a direct link? Reach me through any of these &mdash; I reply fast.</p>
+      <a class="clink" href="mailto:jovinjijo18@gmail.com">Gmail <span class="arr">-&gt;</span></a>
+      <a class="clink" href="https://github.com/jovin-jijo" target="_blank">GitHub <span class="arr">-&gt;</span></a>
+      <a class="clink" href="https://linkedin.com/in/jovin-jijo" target="_blank">LinkedIn <span class="arr">-&gt;</span></a>
+      <a class="clink" href="https://instagram.com/jovin-jijo" target="_blank">Instagram <span class="arr">-&gt;</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="footer-cta">
+  <div class="fcta-big reveal">Let's build<br>something<br><span class="acc">great -&gt;</span></div>
+  <div class="fcta-row reveal reveal-d2">
+    <p class="fcta-sub">I'm 14 and I build stuff. If you want to collab or just say hey, hit me up.</p>
+    <a class="btn-cta" href="mailto:jovinjijo18@gmail.com"><span>Say hi -&gt;</span></a>
+  </div>
+</div>
+
+<footer><span>&copy; 2026 Jovin Jijo</span></footer>
+
+<script>
+// Clock
+function tick(){
+  var n=new Date();
+  document.getElementById('liveClock').textContent=
+    String(n.getHours()).padStart(2,'0')+':'+
+    String(n.getMinutes()).padStart(2,'0')+':'+
+    String(n.getSeconds()).padStart(2,'0');
+}
+tick();setInterval(tick,1000);
+
+// Topbar fade on scroll
+var topbar=document.getElementById('topbar');
+window.addEventListener('scroll',function(){
+  topbar.classList.toggle('hide',window.scrollY>60);
+});
+
+// Scroll reveal
+var ro=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}
+  });
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(function(el){ro.observe(el);});
+
+// Stat counters
+var co=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(!e.isIntersecting)return;
+    var el=e.target,end=+el.getAttribute('data-count'),t0=performance.now();
+    (function step(now){
+      var p=Math.min((now-t0)/1200,1),ease=1-Math.pow(1-p,3);
+      el.textContent=Math.floor(ease*end);
+      if(p<1)requestAnimationFrame(step);else el.textContent=end;
+    })(t0);
+    co.unobserve(el);
+  });
+},{threshold:0.5});
+document.querySelectorAll('.stat-num[data-count]').forEach(function(el){co.observe(el);});
+
+// Nav scroll + burger
+var nav=document.getElementById('mainNav'),ns=document.getElementById('navStack');
+window.addEventListener('scroll',function(){
+  nav.classList.toggle('scrolled',window.scrollY>80);
+  if(window.scrollY<=80)ns.classList.remove('open');
+});
+document.getElementById('navBurger').addEventListener('click',function(){ns.classList.toggle('open');});
+ns.querySelectorAll('a').forEach(function(l){l.addEventListener('click',function(){ns.classList.remove('open');});});
+
+// Nav active state
+var secs=document.querySelectorAll('section[id]'),nls=document.querySelectorAll('.nav-stack a');
+function setActive(){
+  var sy=window.scrollY+window.innerHeight*.15,cur='';
+  secs.forEach(function(s){if(s.offsetTop<=sy)cur=s.id;});
+  nls.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+cur);});
+}
+window.addEventListener('scroll',setActive);setActive();
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var t=document.querySelector(this.getAttribute('href'));
+    if(!t)return;e.preventDefault();
+    t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+// Project drag scroll
+var outer=document.getElementById('projOuter'),drag=false,sx=0,sl=0;
+outer.addEventListener('mousedown',function(e){drag=true;sx=e.pageX-outer.offsetLeft;sl=outer.scrollLeft;});
+window.addEventListener('mouseup',function(){drag=false;});
+outer.addEventListener('mousemove',function(e){
+  if(!drag)return;e.preventDefault();
+  outer.scrollLeft=sl-(e.pageX-outer.offsetLeft-sx)*1.5;
+});
+outer.addEventListener('touchstart',function(e){sx=e.touches[0].pageX;sl=outer.scrollLeft;});
+outer.addEventListener('touchmove',function(e){outer.scrollLeft=sl+(sx-e.touches[0].pageX);});
+
+// Contact form via Formspree
+// Sign up at formspree.io, create a form, paste your ID below
+var FORMSPREE_ID='YOUR_FORM_ID';
+document.getElementById('sendBtn').addEventListener('click',function(){
+  var name=document.getElementById('cf-name').value.trim();
+  var email=document.getElementById('cf-email').value.trim();
+  var sub=document.getElementById('cf-subject').value.trim();
+  var msg=document.getElementById('cf-msg').value.trim();
+  var st=document.getElementById('formStatus');
+  var btn=document.getElementById('sendBtn');
+  if(!name||!email||!msg){st.textContent='Fill in name, email and message.';st.className='form-status err';return;}
+  btn.textContent='Sending...';btn.disabled=true;
+  fetch('https://formspree.io/f/'+FORMSPREE_ID,{
+    method:'POST',
+    headers:{'Accept':'application/json','Content-Type':'application/json'},
+    body:JSON.stringify({name:name,email:email,subject:sub||'Portfolio Contact',message:msg})
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    if(data.ok){
+      st.textContent="Sent! I'll get back to you soon.";
+      st.className='form-status ok';
+      document.getElementById('cf-name').value='';
+      document.getElementById('cf-email').value='';
+      document.getElementById('cf-subject').value='';
+      document.getElementById('cf-msg').value='';
+    }else{
+      st.textContent='Something went wrong. Try emailing me directly.';
+      st.className='form-status err';
+    }
+    btn.textContent='Send Message ->';btn.disabled=false;
+  })
+  .catch(function(){
+    st.textContent='Network error. Try again or email me directly.';
+    st.className='form-status err';
+    btn.textContent='Send Message ->';btn.disabled=false;
+  });
+});
+</script>
+</body>
+</html>
