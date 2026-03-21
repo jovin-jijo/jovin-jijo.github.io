@@ -13,9 +13,10 @@
     html { scroll-behavior: smooth; }
     body { background: #fff; color: #111; font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.6; overflow-x: hidden; }
     .wipe-overlay { position: fixed; inset: 0; z-index: 9999; pointer-events: none; display: grid; grid-template-columns: repeat(5, 1fr); }
-    .wipe-col { background: #000; height: 100vh; transform: translateY(0); transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1); }
+    .wipe-col { background: #000; height: 100vh; transform: translateY(-100%); transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1); }
+    .wipe-col.active { transform: translateY(0); }
     .wipe-col.gone { transform: translateY(100%); }
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 48px; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; background: transparent; opacity: 0; transition: background 0.55s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.5s ease; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 48px; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; background: transparent; transition: background 0.55s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.5s ease; }
     nav.loaded { opacity: 1; }
     nav.scrolled { background: rgba(255,255,255,0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
     nav.menu-open { background: #111; }
@@ -113,4 +114,50 @@
   <div class="tl-row tl-mystery"><span class="tl-date" id="tl-today"></span><span class="tl-event">???</span></div>
   <div class="tl-row"><span class="tl-date">03.16.26</span><span class="tl-event">Planning InfraGhost — mining 200B+ rows of NASA infrared data</span></div>
   <div class="tl-row"><span class="tl-date">03.04.26</span><span class="tl-event">Building Manna — one verse every morning</span></div>
-  <div class="tl-row"><span class="tl-date">02.18.26</span><span class="tl-event">Built this portfolio</sp
+  <div class="tl-row"><span class="tl-date">02.18.26</span><span class="tl-event">Built this portfolio</span></div>
+  <div class="tl-row"><span class="tl-date">09.22.25</span><span class="tl-event">Joined BPA — Business Professionals of America</span></div>
+  <div class="tl-row"><span class="tl-date">08.25.25</span><span class="tl-event">Started coding</span></div>
+  <div class="tl-row"><span class="tl-date">08.11.25</span><span class="tl-event">Started Cross Country — Freshman year</span></div>
+  <div class="tl-row"><span class="tl-date">08.24.23</span><span class="tl-event">Started 7th grade Track & Field</span></div>
+  <div class="tl-row"><span class="tl-date">04.17.11</span><span class="tl-event">Jovin was born</span></div>
+</main>
+<footer>
+  <span class="ft-copy">© 2026 <a href="/">Jovin Jijo</a></span>
+  <span class="ft-time" id="ft-time"></span>
+</footer>
+<script>
+  var hb = document.getElementById('hamburger');
+  var menu = document.getElementById('mobile-menu');
+  var nav = document.getElementById('nav');
+  hb.addEventListener('click', function() {
+    var open = menu.classList.toggle('open');
+    hb.classList.toggle('open', open);
+    nav.classList.toggle('menu-open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mob-link').forEach(function(l) {
+    l.addEventListener('click', function() {
+      menu.classList.remove('open'); hb.classList.remove('open');
+      nav.classList.remove('menu-open'); document.body.style.overflow = '';
+    });
+  });
+  window.addEventListener('scroll', function() { nav.classList.toggle('scrolled', window.scrollY > 20); });
+  document.querySelectorAll('.wipe-col').forEach(function(col, i) {
+    col.classList.add('active');
+    setTimeout(function() { col.classList.remove('active'); col.classList.add('gone'); }, 100 + i * 80);
+  });
+  setTimeout(function() { nav.classList.add('loaded'); }, 400);
+  document.querySelectorAll('.nav-links li').forEach(function(li, i) { setTimeout(function() { li.classList.add('visible'); }, 420 + i * 80); });
+  function tick() {
+    var t = new Date(), h = t.getHours(), m = String(t.getMinutes()).padStart(2,'0');
+    var ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
+    document.getElementById('ft-time').textContent = 'Jovin Time: ' + h + ':' + m + ' ' + ap;
+  }
+  tick(); setInterval(tick, 1000);
+  var now = new Date();
+  var mm = String(now.getMonth()+1).padStart(2,'0'), dd = String(now.getDate()).padStart(2,'0'), yy = String(now.getFullYear()).slice(2);
+  document.getElementById('tl-today').textContent = mm + '.' + dd + '.' + yy;
+  document.querySelectorAll('.tl-row').forEach(function(row, i) { setTimeout(function() { row.classList.add('visible'); }, 550 + i * 50); });
+</script>
+</body>
+</html>
