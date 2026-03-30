@@ -128,10 +128,7 @@
     </div>
   </div>
 </div>
-<footer>
-  <span class="ft-copy">© 2026 <a href="/">Jovin Jijo</a></span>
-  <span class="ft-time" id="ft-time"></span>
-</footer>
+
 <script>
   var hb = document.getElementById('hamburger'), menu = document.getElementById('mobile-menu'), nav = document.getElementById('nav');
   hb.addEventListener('click', function() { var open = menu.classList.toggle('open'); hb.classList.toggle('open', open); nav.classList.toggle('menu-open', open); document.body.style.overflow = open ? 'hidden' : ''; });
@@ -142,7 +139,14 @@
   setTimeout(function() { document.getElementById('page-title').classList.add('visible'); }, 500);
   setTimeout(function() { document.getElementById('about-image').classList.add('visible'); }, 580);
   setTimeout(function() { document.getElementById('about-content').classList.add('visible'); }, 660);
-  function tick() { var t = new Date(), h = t.getHours(), m = String(t.getMinutes()).padStart(2,'0'), ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12; document.getElementById('ft-time').textContent = 'Jovin Time: ' + h + ':' + m + ' ' + ap; }
+
+  function tick() {
+    var el = document.getElementById('ft-time');
+    if (!el) return;
+    var t = new Date(), h = t.getHours(), m = String(t.getMinutes()).padStart(2,'0'), ap = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    el.textContent = 'Jovin Time: ' + h + ':' + m + ' ' + ap;
+  }
   tick(); setInterval(tick, 1000);
 </script>
 </body>
