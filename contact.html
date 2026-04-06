@@ -3,23 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jovin Jijo</title>
+  <title>Jovin Jijo | Contact</title>
   <link rel="icon" type="image/png" href="favicon.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { background: #fff; color: #111; font-family: 'Courier New', Courier, monospace; font-size: 13px; line-height: 1.6; overflow-x: hidden; }
-    .wipe-overlay { position: fixed; inset: 0; z-index: 9999; pointer-events: none; display: grid; grid-template-columns: repeat(5, 1fr); }
-    .wipe-col { background: #000; height: 100vh; transform: translateY(-100%); transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1); }
-    .wipe-col.active { transform: translateY(0); }
-    .wipe-col.gone { transform: translateY(100%); }
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 56px; padding: 0 24px; display: flex; align-items: center; justify-content: flex-end; background: transparent; transition: background 0.3s ease, backdrop-filter 0.3s ease; }
-    nav.scrolled { background: rgba(255,255,255,0.82); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-    nav.menu-open { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
-
+    nav.scrolled { background: rgba(255,255,255,0.82); backdrop-filter: blur(20px); }
+    nav.menu-open { background: transparent; backdrop-filter: none; }
     .nav-right { display: flex; align-items: center; }
     .nav-links { display: flex; list-style: none; }
     .nav-links li { opacity: 0; transform: translateY(-4px); transition: opacity 0.35s ease, transform 0.35s ease; }
@@ -72,10 +65,6 @@
   </style>
 </head>
 <body>
-<div class="wipe-overlay">
-  <div class="wipe-col"></div><div class="wipe-col"></div><div class="wipe-col"></div>
-  <div class="wipe-col"></div><div class="wipe-col"></div>
-</div>
 <nav id="nav">
   <div class="nav-right">
     <ul class="nav-links">
@@ -90,7 +79,7 @@
 </nav>
 <div class="mobile-menu" id="mobile-menu">
   <div class="mobile-menu-links">
-    <a href="/" class="mob-link">Home</a>
+    <a href="index.html" class="mob-link">Home</a>
     <a href="about.html" class="mob-link">About</a>
     <a href="projects.html" class="mob-link">Projects</a>
     <a href="contact.html" class="mob-link">Contact</a>
@@ -103,12 +92,13 @@
     <a href="https://youtube.com/@jovin_jijo" target="_blank">YT</a>
   </div>
 </div>
+
 <h1 class="page-title" id="page-title">Contact</h1>
 <div class="contact-body" id="contact-body">
   <div>
     <p class="contact-intro">If you want to work on something together or just say hey — reach out. I check my messages.</p>
     <div class="contact-links">
-      <a class="contact-link" href="/cdn-cgi/l/email-protection#5b31342d3235313231346a631b3c363a323775383436">Gmail</a>
+      <a class="contact-link" href="mailto:YOUR_EMAIL_HERE">Gmail</a>
       <a class="contact-link" href="https://github.com/jovin-jijo" target="_blank">GitHub</a>
       <a class="contact-link" href="https://linkedin.com/in/jovin-jijo" target="_blank">LinkedIn</a>
       <a class="contact-link" href="https://x.com/jovin_jijo" target="_blank">X / Twitter</a>
@@ -123,14 +113,45 @@
     </form>
   </div>
 </div>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  var hb = document.getElementById('hamburger'), menu = document.getElementById('mobile-menu'), nav = document.getElementById('nav');
-  hb.addEventListener('click', function() { var open = menu.classList.toggle('open'); hb.classList.toggle('open', open); nav.classList.toggle('menu-open', open); document.body.style.overflow = open ? 'hidden' : ''; });
-  document.querySelectorAll('.mob-link').forEach(function(l) { l.addEventListener('click', function() { menu.classList.remove('open'); hb.classList.remove('open'); nav.classList.remove('menu-open'); document.body.style.overflow = ''; }); });
-  window.addEventListener('scroll', function() { nav.classList.toggle('scrolled', window.scrollY > 10); });
-  document.querySelectorAll('.wipe-col').forEach(function(col, i) { col.classList.add('active'); setTimeout(function() { col.classList.remove('active'); col.classList.add('gone'); }, 100 + i * 80); });
-  document.querySelectorAll('.nav-links li').forEach(function(li, i) { setTimeout(function() { li.classList.add('visible'); }, 420 + i * 80); });
-  setTimeout(function() { document.getElementById('page-title').classList.add('visible'); }, 500);
-  setTimeout(function() { document.getElementById('contact-body').classList.add('visible'); }, 600);
-  var form = document.getElementById('contact-form');
-  form.addEventListener('submit', function(e) { e.preventDefault(); var btn = document.getElementById('btn-text'); btn.textContent = 'Sending...'; fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } }).then(function(r)
+
+<script>
+  const hb = document.getElementById('hamburger');
+  const menu = document.getElementById('mobile-menu');
+  const nav = document.getElementById('nav');
+
+  hb.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    hb.classList.toggle('open', open);
+    nav.classList.toggle('menu-open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+
+  document.querySelectorAll('.mob-link').forEach(l => {
+    l.addEventListener('click', () => {
+      menu.classList.remove('open');
+      hb.classList.remove('open');
+      nav.classList.remove('menu-open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 10));
+
+  setTimeout(() => document.getElementById('page-title').classList.add('visible'), 500);
+  setTimeout(() => document.getElementById('contact-body').classList.add('visible'), 600);
+
+  const form = document.getElementById('contact-form');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const btn = document.getElementById('btn-text');
+    btn.textContent = 'Sending...';
+    fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
+      .then(r => {
+        if (r.ok) { btn.textContent = 'Sent!'; form.reset(); }
+        else { btn.textContent = 'Error!'; }
+      })
+      .catch(() => { btn.textContent = 'Error!'; });
+  });
+</script>
+</body>
+</html>
