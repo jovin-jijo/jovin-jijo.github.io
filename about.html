@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -16,12 +16,10 @@
     .wipe-col { background: #000; height: 100vh; transform: translateY(-100%); transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1); }
     .wipe-col.active { transform: translateY(0); }
     .wipe-col.gone { transform: translateY(100%); }
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 56px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; background: transparent; transition: background 0.3s ease, backdrop-filter 0.3s ease; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 56px; padding: 0 24px; display: flex; align-items: center; justify-content: flex-end; background: transparent; transition: background 0.3s ease, backdrop-filter 0.3s ease; }
     nav.scrolled { background: rgba(255,255,255,0.82); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
     nav.menu-open { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
-    .nav-logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 400; color: #111; text-decoration: none; letter-spacing: 0.01em; transition: color 0.4s ease, opacity 0.4s ease; }
-    .nav-logo:hover { opacity: 0.5; }
-    nav.menu-open .nav-logo { color: rgba(255,255,255,0.35); }
+
     .nav-right { display: flex; align-items: center; }
     .nav-links { display: flex; list-style: none; }
     .nav-links li { opacity: 0; transform: translateY(-4px); transition: opacity 0.35s ease, transform 0.35s ease; }
@@ -39,7 +37,7 @@
     .mobile-menu { position: fixed; inset: 0; z-index: 999; background: #000; display: flex; flex-direction: column; pointer-events: none; padding: 80px 32px 56px; opacity: 0; transform: scale(1.02); transition: opacity 0.35s ease, transform 0.35s ease; }
     .mobile-menu.open { opacity: 1; transform: scale(1); pointer-events: all; }
     .mobile-menu-links { display: flex; flex-direction: column; gap: 0; flex: 1; justify-content: center; }
-    .mobile-menu-links a { font-family: 'EB Garamond', serif; font-size: clamp(44px, 10vw, 68px); font-weight: 400; color: #fff; text-decoration: none; line-height: 1.25; opacity: 0; transform: translateY(12px); transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s; }
+    .mobile-menu-links a { font-family: 'Cormorant Garamond', serif; font-size: clamp(48px, 11vw, 72px); font-weight: 600; color: #fff; text-decoration: none; line-height: 1.25; opacity: 0; transform: translateY(12px); transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s; }
     .mobile-menu.open .mobile-menu-links a { opacity: 1; transform: translateY(0); }
     .mobile-menu.open .mobile-menu-links a:nth-child(1) { transition-delay: 0.12s; }
     .mobile-menu.open .mobile-menu-links a:nth-child(2) { transition-delay: 0.18s; }
@@ -73,7 +71,6 @@
   <div class="wipe-col"></div><div class="wipe-col"></div>
 </div>
 <nav id="nav">
-  <a class="nav-logo" href="/">Jovin.</a>
   <div class="nav-right">
     <ul class="nav-links">
       <li><a href="https://x.com/jovin_jijo" target="_blank">X</a></li>
@@ -111,7 +108,7 @@
     <div class="about-body">
       <p>I am a 14-year-old building projects, researching what interests me, and teaching myself everything along the way.</p>
       <p>Right now I'm planning InfraGhost — mining 200B+ rows of NASA infrared data to find transients that got missed. Also building Manna, a devotional app.</p>
-      <p>When I'm not coding I run cross country, do track, play chess, do robotics, and photograph cars.</p>
+      <p>When I'm not coding I run cross country, do track & field, and play chess.</p>
     </div>
   </div>
 </div>
