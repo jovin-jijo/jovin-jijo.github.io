@@ -9,281 +9,205 @@
 
 <style>
 :root {
-  --grid: 8px;
-  --max: 1100px;
-  --bg: #ffffff;
-  --text: #000000;
+  --grey-dark: #313131;
+  --grey-light: #f1f1f1;
   --muted: rgba(0,0,0,0.45);
+  /* The exact Ansa Easing */
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 }
-
-* { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
 body {
   margin: 0;
   font-family: "DM Sans", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
+  background: #fff;
+  color: #000;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* =========================
-   APPLE GLASS NAV (RIGHT)
+   LOUIS ANSA NAV REPLICATION
 ========================= */
-nav {
+.nav-wrapper {
   position: fixed;
-  top: calc(var(--grid) * 4);
-  right: calc(var(--grid) * 4);
+  top: 40px; 
+  right: 40px;
   z-index: 1000;
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-radius: 999px;
-  padding: 6px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.04);
-}
-
-.links {
-  position: relative;
   display: flex;
-  gap: 4px;
   align-items: center;
 }
 
-.links a {
+.toggle {
   position: relative;
-  z-index: 2;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--muted);
-  padding: 8px 18px;
-  border-radius: 999px;
-  transition: color 0.3s ease;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 100px;
+  padding: 4px;
 }
 
-.links a:hover { color: #000; }
-
-.glider {
+/* The "Glider" is actually a shape-shifting SVG in his build */
+.toggle__svg {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 0;
-  background: rgba(0,0,0,0.04);
-  border-radius: 999px;
+  top: 4px;
+  left: 4px;
+  height: calc(100% - 8px);
+  pointer-events: none;
   z-index: 1;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 0.6s var(--ease-out-expo), width 0.6s var(--ease-out-expo), opacity 0.3s ease;
   opacity: 0;
 }
 
+.toggle__svg rect {
+  fill: var(--grey-dark);
+}
+
+.toggle__inner {
+  display: flex;
+  position: relative;
+  z-index: 2;
+}
+
+.nav-link {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--grey-dark);
+  padding: 12px 24px;
+  text-decoration: none;
+  transition: color 0.4s var(--ease-out-expo);
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  opacity: 0.7;
+}
+
+.nav-link.is-selected {
+  color: #fff;
+  opacity: 1;
+}
+
 /* =========================
-   HERO SECTION
+   HERO SECTION 
 ========================= */
 .hero {
-  min-height: 85vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 0 24px;
 }
 
 .hero h1 {
-  font-size: clamp(40px, 8vw, 84px);
+  font-size: clamp(40px, 8vw, 88px);
+  letter-spacing: -0.04em;
   font-weight: 400;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
   margin: 0;
 }
 
-.hero h1 em { font-style: normal; color: var(--muted); }
-
 .hero-meta {
-  margin-top: 32px;
-  font-size: 15px;
-  color: var(--muted);
+  margin-top: 40px;
   font-family: "Poppins", sans-serif;
-  letter-spacing: -0.01em;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
 }
 
 #clock-wrap {
-  display: inline-flex;
-  gap: 6px;
-  color: var(--text);
+  color: #000;
   font-weight: 500;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
 }
 
-.tz-offset {
-  color: var(--muted);
-  font-weight: 400;
-  font-size: 13px;
-  background: rgba(0,0,0,0.05);
+.tz-box {
+  font-size: 10px;
+  background: var(--grey-light);
   padding: 2px 6px;
   border-radius: 4px;
-}
-
-/* =========================
-   PROJECTS (APPLE STYLE)
-========================= */
-section {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 120px 24px;
-}
-
-.section-title {
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--muted);
-  margin-bottom: 40px;
-  text-align: center;
-}
-
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-}
-
-.project-card {
-  aspect-ratio: 4/3;
-  background: #fbfbfd;
-  border-radius: 28px;
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.5s cubic-bezier(0.2, 1, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.project-card:hover { transform: scale(0.985); }
-
-.project-card h3 { font-size: 24px; font-weight: 500; margin: 0 0 8px 0; }
-.project-card p { font-size: 15px; color: var(--muted); margin: 0; }
-
-.profile-text {
-  font-size: clamp(24px, 4vw, 42px);
-  line-height: 1.35;
-  font-weight: 400;
-  max-width: 900px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-@media (max-width: 768px) {
-  .project-grid { grid-template-columns: 1fr; }
-  .hero h1 { font-size: 48px; }
-  nav { top: auto; bottom: 24px; right: 50%; transform: translateX(50%); }
 }
 </style>
 </head>
 
 <body>
 
-<nav>
-  <div class="links" id="navLinks">
-    <a href="#projects">Projects</a>
-    <a href="#profile">Portfolio</a>
-    <span class="glider" id="glider"></span>
+<div class="nav-wrapper">
+  <div class="toggle">
+    <svg class="toggle__svg" id="glider-svg">
+      <rect x="0" y="0" width="100%" height="100%" rx="100" />
+    </svg>
+    
+    <div class="toggle__inner">
+      <a href="#" class="nav-link" onmouseenter="moveGlider(this)">Index</a>
+      <a href="#" class="nav-link" onmouseenter="moveGlider(this)">About</a>
+    </div>
   </div>
-</nav>
+</div>
 
 <div class="hero">
-  <h1>
-    I’m Jovin, <em>I design and build</em><br>
-    simple digital products<br>
-    <em>that feel effortless.</em>
-  </h1>
+  <h1>Jovin Jijo<br><em>Multidisciplinary</em></h1>
   <p class="hero-meta">
-    Open to internships &nbsp;·&nbsp; Aurora, IL &nbsp;·&nbsp; 
+    Aurora, IL &nbsp;·&nbsp; 
     <span id="clock-wrap">
       <span id="clock">00:00:00 AM</span>
-      <span id="offset" class="tz-offset">CT</span>
+      <span id="offset" class="tz-box">CT</span>
     </span>
   </p>
 </div>
 
-<section id="projects">
-  <div class="section-title">Selected Works</div>
-  <div class="project-grid">
-    <a href="#" class="project-card">
-      <div>
-        <h3>Interface Vision</h3>
-        <p>Exploring the future of spatial computing.</p>
-      </div>
-    </a>
-    <a href="#" class="project-card">
-      <div>
-        <h3>Utility One</h3>
-        <p>Minimalist productivity for the modern web.</p>
-      </div>
-    </a>
-  </div>
-</section>
-
-<section id="profile">
-  <div class="profile-text">
-    High school student focused on UI/UX and frontend development, 
-    crafting intentional experiences through clean typography and 
-    invisible grids.
-  </div>
-</section>
-
 <script>
-// --- LIVE CLOCK & DYNAMIC TZ OFFSET ---
+const glider = document.getElementById('glider-svg');
+const links = document.querySelectorAll('.nav-link');
+
+function moveGlider(el) {
+  const rect = el.getBoundingClientRect();
+  const parentRect = el.parentElement.getBoundingClientRect();
+  
+  // Reset all links
+  links.forEach(l => l.classList.remove('is-selected'));
+  
+  // Animate SVG Glider
+  glider.style.opacity = "1";
+  glider.style.width = rect.width + "px";
+  glider.style.transform = `translateX(${rect.left - parentRect.left}px)`;
+  
+  // Highlight text
+  el.classList.add('is-selected');
+}
+
+// Reset glider when leaving nav
+document.querySelector('.toggle').addEventListener('mouseleave', () => {
+  glider.style.opacity = "0";
+  links.forEach(l => l.classList.remove('is-selected'));
+});
+
+// --- CLOCK WITH CT OFFSET ---
 function updateClock() {
   const now = new Date();
   
-  // 1. Get Aurora Time (CT)
-  const auroraTimeStr = now.toLocaleTimeString('en-US', { 
+  const auroraTime = now.toLocaleTimeString('en-US', { 
     hour: '2-digit', minute: '2-digit', second: '2-digit', 
     hour12: true, timeZone: 'America/Chicago' 
   });
-  document.getElementById('clock').textContent = auroraTimeStr;
+  document.getElementById('clock').textContent = auroraTime;
 
-  // 2. Calculate Comparative Offset
-  // Get raw UTC offsets in minutes
-  const userOffset = now.getTimezoneOffset(); // e.g. -300 for NY
-  
-  // Create a date object forced to Chicago time to find its offset
+  const userMin = now.getTimezoneOffset();
   const auroraDate = new Date(now.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
   const utcDate = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }));
-  const auroraOffset = (utcDate - auroraDate) / 60000;
+  const auroraMin = (utcDate - auroraDate) / 60000;
 
-  // Difference in hours
-  const diff = Math.round((auroraOffset - userOffset) / 60);
+  const diff = Math.round((auroraMin - userMin) / 60);
   const sign = diff >= 0 ? "+" : "";
-  
-  // Only show offset if there is one, otherwise just "CT"
   document.getElementById('offset').textContent = diff === 0 ? "CT" : `CT ${sign}${diff}H`;
 }
 
 setInterval(updateClock, 1000);
 updateClock();
-
-// --- NAV ANIMATION ---
-const navLinks = document.querySelectorAll(".links a");
-const glider = document.getElementById("glider");
-
-navLinks.forEach(link => {
-  link.addEventListener("mouseenter", (e) => {
-    const rect = e.target.getBoundingClientRect();
-    const parentRect = e.target.parentElement.getBoundingClientRect();
-    glider.style.opacity = "1";
-    glider.style.left = (rect.left - parentRect.left) + "px";
-    glider.style.width = rect.width + "px";
-  });
-});
-
-document.getElementById("navLinks").addEventListener("mouseleave", () => {
-  glider.style.opacity = "0";
-});
 </script>
 
 </body>
