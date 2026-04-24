@@ -5,218 +5,284 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Jovin Jijo</title>
 
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Poppins:wght@500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Poppins:wght@400;500&display=swap" rel="stylesheet"/>
 
 <style>
 :root {
   --grid: 8px;
-  --max: 980px;
-  --bg: #f5f5f7;
-  --text: #000;
-  --muted: rgba(0,0,0,0.55);
-  --desktop-col: min(5vw, 80px);
+  --max: 1100px;
+  --bg: #ffffff;
+  --text: #000000;
+  --muted: rgba(0,0,0,0.45);
 }
+
+* { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
 body {
   margin: 0;
   font-family: "DM Sans", sans-serif;
   background: var(--bg);
   color: var(--text);
-  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 /* =========================
-   REFINED NAV SYSTEM 
-   ========================= */
-
-/* The Toggle Switch (Right Only now) */
-.nav-toggle {
+   APPLE GLASS NAV (RIGHT)
+========================= */
+nav {
   position: fixed;
-  right: calc(var(--desktop-col) / 2);
-  top: calc(var(--desktop-col) / 2);
-  z-index: 1001;
+  top: calc(var(--grid) * 4);
+  right: calc(var(--grid) * 4);
+  z-index: 1000;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 999px;
+  padding: 6px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.04);
+}
+
+.links {
+  position: relative;
   display: flex;
-  gap: 20px;
+  gap: 4px;
+  align-items: center;
 }
 
-.nav-toggle a {
+.links a {
+  position: relative;
+  z-index: 2;
   text-decoration: none;
-  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
   font-weight: 500;
-  font-size: 12px;
-  text-transform: uppercase;
-  color: var(--text);
-  opacity: 0.4;
-  transition: opacity 0.3s ease;
+  color: var(--muted);
+  padding: 8px 18px;
+  border-radius: 999px;
+  transition: color 0.3s ease;
 }
 
-.nav-toggle a:hover, .nav-toggle a.active {
-  opacity: 1;
+.links a:hover { color: #000; }
+
+.glider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background: rgba(0,0,0,0.04);
+  border-radius: 999px;
+  z-index: 1;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  opacity: 0;
 }
 
 /* =========================
-   EXISTING LAYOUT
-   ========================= */
-
-section, .hero {
-  padding-left: calc(var(--grid) * 3);
-  padding-right: calc(var(--grid) * 3);
-}
-
-.container {
-  max-width: var(--max);
-  margin: 0 auto;
-}
-
+   HERO SECTION
+========================= */
 .hero {
-  min-height: 80vh;
+  min-height: 85vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding-top: calc(var(--grid) * 18);
+  padding: 0 24px;
 }
 
 .hero h1 {
-  font-size: clamp(34px, 5vw, 64px);
-  font-weight: 300;
-  line-height: 1.1;
+  font-size: clamp(40px, 8vw, 84px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
   margin: 0;
-  letter-spacing: -0.02em;
 }
 
-.hero p {
+.hero h1 em { font-style: normal; color: var(--muted); }
+
+.hero-meta {
+  margin-top: 32px;
+  font-size: 15px;
   color: var(--muted);
-  margin-top: 20px;
-  font-variant-numeric: tabular-nums; /* Keeps clock numbers from jumping */
+  font-family: "Poppins", sans-serif;
+  letter-spacing: -0.01em;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: calc(var(--grid) * 2);
-  margin-top: 40px;
+#clock-wrap {
+  display: inline-flex;
+  gap: 6px;
+  color: var(--text);
+  font-weight: 500;
 }
 
-.tile {
-  padding: calc(var(--grid) * 3);
-  border-radius: calc(var(--grid) * 3);
-  background: #fff;
-  min-height: 220px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  transition: transform 0.35s ease;
-}
-
-.tile:hover {
-  transform: scale(1.02);
-}
-
-.tag {
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+.tz-offset {
   color: var(--muted);
-  margin-bottom: 10px;
+  font-weight: 400;
+  font-size: 13px;
+  background: rgba(0,0,0,0.05);
+  padding: 2px 6px;
+  border-radius: 4px;
 }
 
+/* =========================
+   PROJECTS (APPLE STYLE)
+========================= */
 section {
   max-width: var(--max);
   margin: 0 auto;
-  padding-top: 100px;
-  padding-bottom: 100px;
+  padding: 120px 24px;
 }
 
-.title {
-  font-size: 11px;
-  letter-spacing: 0.14em;
+.section-title {
+  font-size: 14px;
   text-transform: uppercase;
+  letter-spacing: 0.12em;
   color: var(--muted);
-  margin-bottom: 24px;
+  margin-bottom: 40px;
+  text-align: center;
 }
 
-@media (max-width: 900px) {
-  .grid { grid-template-columns: 1fr; }
-  .nav-toggle { top: 20px; right: 20px; }
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.project-card {
+  aspect-ratio: 4/3;
+  background: #fbfbfd;
+  border-radius: 28px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.5s cubic-bezier(0.2, 1, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card:hover { transform: scale(0.985); }
+
+.project-card h3 { font-size: 24px; font-weight: 500; margin: 0 0 8px 0; }
+.project-card p { font-size: 15px; color: var(--muted); margin: 0; }
+
+.profile-text {
+  font-size: clamp(24px, 4vw, 42px);
+  line-height: 1.35;
+  font-weight: 400;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .project-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 48px; }
+  nav { top: auto; bottom: 24px; right: 50%; transform: translateX(50%); }
 }
 </style>
 </head>
 
 <body>
 
-<nav class="nav-toggle">
-  <a href="#projects" class="active">Index</a>
-  <a href="#profile">About</a>
+<nav>
+  <div class="links" id="navLinks">
+    <a href="#projects">Projects</a>
+    <a href="#profile">Portfolio</a>
+    <span class="glider" id="glider"></span>
+  </div>
 </nav>
 
 <div class="hero">
-  <div class="container">
-    <h1>
-      I design and build<br>
-      simple digital products<br>
-      that feel effortless.
-    </h1>
-    <p>Open to internships · Aurora, IL · <span id="clock">00:00:00 AM</span></p>
-  </div>
+  <h1>
+    I’m Jovin, <em>I design and build</em><br>
+    simple digital products<br>
+    <em>that feel effortless.</em>
+  </h1>
+  <p class="hero-meta">
+    Open to internships &nbsp;·&nbsp; Aurora, IL &nbsp;·&nbsp; 
+    <span id="clock-wrap">
+      <span id="clock">00:00:00 AM</span>
+      <span id="offset" class="tz-offset">CT</span>
+    </span>
+  </p>
 </div>
 
 <section id="projects">
-  <div class="container">
-    <div class="title">Selected Work</div>
-    <div class="grid">
-      <div class="tile">
-        <div class="tag">Portfolio</div>
-        <h3>Personal Website</h3>
-        <p style="font-size: 13px; color: var(--muted);">Clean UI focused on typography.</p>
+  <div class="section-title">Selected Works</div>
+  <div class="project-grid">
+    <a href="#" class="project-card">
+      <div>
+        <h3>Interface Vision</h3>
+        <p>Exploring the future of spatial computing.</p>
       </div>
-      <div class="tile">
-        <div class="tag">UI/UX</div>
-        <h3>Interface Study</h3>
-        <p style="font-size: 13px; color: var(--muted);">Exploring spacing and hierarchy.</p>
+    </a>
+    <a href="#" class="project-card">
+      <div>
+        <h3>Utility One</h3>
+        <p>Minimalist productivity for the modern web.</p>
       </div>
-      <div class="tile">
-        <div class="tag">Frontend</div>
-        <h3>Web Experiments</h3>
-        <p style="font-size: 13px; color: var(--muted);">Interaction-based builds.</p>
-      </div>
-    </div>
+    </a>
   </div>
 </section>
 
 <section id="profile">
-  <div class="container">
-    <div class="title">Profile</div>
-    <p style="font-size: 24px; font-weight: 300; line-height: 1.4; max-width: 700px;">
-      Focused on UI/UX and frontend development, building clean, intentional digital experiences that balance aesthetics with functionality.
-    </p>
+  <div class="profile-text">
+    High school student focused on UI/UX and frontend development, 
+    crafting intentional experiences through clean typography and 
+    invisible grids.
   </div>
 </section>
 
 <script>
-// Live Clock Functionality
+// --- LIVE CLOCK & DYNAMIC TZ OFFSET ---
 function updateClock() {
   const now = new Date();
-  const options = { 
-    hour: '2-digit', 
-    minute: '2-digit', 
-    second: '2-digit', 
-    hour12: true,
-    timeZone: 'America/Chicago' // Sets clock to Aurora, IL time
-  };
-  document.getElementById('clock').textContent = now.toLocaleTimeString('en-US', options);
+  
+  // 1. Get Aurora Time (CT)
+  const auroraTimeStr = now.toLocaleTimeString('en-US', { 
+    hour: '2-digit', minute: '2-digit', second: '2-digit', 
+    hour12: true, timeZone: 'America/Chicago' 
+  });
+  document.getElementById('clock').textContent = auroraTimeStr;
+
+  // 2. Calculate Comparative Offset
+  // Get raw UTC offsets in minutes
+  const userOffset = now.getTimezoneOffset(); // e.g. -300 for NY
+  
+  // Create a date object forced to Chicago time to find its offset
+  const auroraDate = new Date(now.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+  const utcDate = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }));
+  const auroraOffset = (utcDate - auroraDate) / 60000;
+
+  // Difference in hours
+  const diff = Math.round((auroraOffset - userOffset) / 60);
+  const sign = diff >= 0 ? "+" : "";
+  
+  // Only show offset if there is one, otherwise just "CT"
+  document.getElementById('offset').textContent = diff === 0 ? "CT" : `CT ${sign}${diff}H`;
 }
 
 setInterval(updateClock, 1000);
-updateClock(); // Initial call
+updateClock();
 
-// Nav Active State
-const navLinks = document.querySelectorAll('.nav-toggle a');
+// --- NAV ANIMATION ---
+const navLinks = document.querySelectorAll(".links a");
+const glider = document.getElementById("glider");
+
 navLinks.forEach(link => {
-  link.addEventListener('click', () => {
-    navLinks.forEach(l => l.classList.remove('active'));
-    link.classList.add('active');
+  link.addEventListener("mouseenter", (e) => {
+    const rect = e.target.getBoundingClientRect();
+    const parentRect = e.target.parentElement.getBoundingClientRect();
+    glider.style.opacity = "1";
+    glider.style.left = (rect.left - parentRect.left) + "px";
+    glider.style.width = rect.width + "px";
   });
+});
+
+document.getElementById("navLinks").addEventListener("mouseleave", () => {
+  glider.style.opacity = "0";
 });
 </script>
 
