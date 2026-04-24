@@ -1,108 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Jovin Jijo</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Poppins:wght@500&display=swap" rel="stylesheet"/>
+
 <style>
+:root {
+  --grid: 8px;
+  --max: 980px;
+  --bg: #f5f5f7;
+  --text: #000;
+  --muted: rgba(0,0,0,0.55);
+  
+  /* Ansa-style spacing variables */
+  --desktop-col: min(5vw, 80px);
+}
+
+body {
+  margin: 0;
+  font-family: "DM Sans", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =========================
+   LOUIS ANSA NAV SYSTEM 
+   ========================= */
+
+/* The Fixed Name/Title (Left) */
+.header__bar {
+  left: 0;
+  mix-blend-mode: difference; /* Critical: flips color based on background */
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  pointer-events: none; /* Allows clicking items behind the bar */
+}
+
+.header__baseline p {
+  pointer-events: auto;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff; /* In 'difference' mode, white text appears black on light bg */
+  margin-left: calc(var(--desktop-col) / 2);
+  margin-top: calc(var(--desktop-col) / 2);
+}
+
+/* The Toggle Switch (Right) */
+.nav-toggle {
+  position: fixed;
+  right: calc(var(--desktop-col) / 2);
+  top: calc(var(--desktop-col) / 2);
+  z-index: 1001;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-toggle a {
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--text);
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+.nav-toggle a:hover, .nav-toggle a.active {
+  opacity: 1;
+}
+
+/* =========================
+   EXISTING LAYOUT
+   ========================= */
+
+section, .hero {
+  padding-left: calc(var(--grid) * 3);
+  padding-right: calc(var(--grid) * 3);
+}
+
+.container {
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
 .hero {
-  min-height: 100vh;
+  min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 120px 40px 100px;
   text-align: center;
-  position: relative;
+  padding-top: calc(var(--grid) * 18);
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse 60% 50% at 50% 30%,
-    rgba(2,28,33,0.7) 0%,
-    transparent 70%
-  );
-  pointer-events: none;
+.hero h1 {
+  font-size: clamp(34px, 5vw, 64px);
+  font-weight: 300;
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: -0.02em;
 }
 
-.hero-inner {
-  max-width: 800px;
-  position: relative;
-  z-index: 1;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: calc(var(--grid) * 2);
+  margin-top: 40px;
 }
 
-.hero-label {
-  font-family: 'Space Mono', monospace;
+.tile {
+  padding: calc(var(--grid) * 3);
+  border-radius: calc(var(--grid) * 3);
+  background: #fff;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: transform 0.35s ease;
+}
+
+.tile:hover {
+  transform: scale(1.02);
+}
+
+.tag {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+section {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.title {
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(240,237,232,0.3);
-  margin-bottom: 20px;
+  color: var(--muted);
+  margin-bottom: 24px;
 }
 
-.hero-title {
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 300;
-  font-size: clamp(36px, 5vw, 64px);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: #f0ede8;
-  margin-bottom: 28px;
-}
-
-.hero-title em {
-  font-style: italic;
-  color: rgba(240,237,232,0.5);
-}
-
-.hero-sub {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 17px;
-  font-weight: 300;
-  color: rgba(240,237,232,0.5);
-  line-height: 1.7;
-  max-width: 540px;
-  margin: 0 auto 40px;
-}
-
-.hero-cta {
-  display: inline-block;
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #f0ede8;
-  text-decoration: none;
-  border: 1px solid rgba(240,237,232,0.25);
-  padding: 14px 32px;
-  border-radius: 60px;
-  transition: background 0.2s, border-color 0.2s;
-}
-
-.hero-cta:hover {
-  background: rgba(240,237,232,0.06);
-  border-color: rgba(240,237,232,0.4);
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  .header__baseline p { margin-top: 20px; margin-left: 20px; }
+  .nav-toggle { top: 20px; right: 20px; }
 }
 </style>
+</head>
+
+<body>
+
+<header class="header__bar">
+  <div class="header__baseline">
+    <p>Jovin Jijo — Portfolio 2026</p>
+  </div>
+</header>
+
+<nav class="nav-toggle">
+  <a href="#projects" class="active">Index</a>
+  <a href="#profile">About</a>
+</nav>
 
 <div class="hero">
-  <div class="hero-inner">
-
-    <p class="hero-label">
-      Open to Internships · Aurora, IL · <span id="clock"></span>
-    </p>
-
-    <h1 class="hero-title">
-      I'm Jovin,<br>
-      <em>designing and building</em><br>
-      modern digital experiences.
+  <div class="container">
+    <h1>
+      I design and build<br>
+      simple digital products<br>
+      that feel effortless.
     </h1>
-
-    <p class="hero-sub">
-      High school student learning UI/UX and development. I focus on creating clean, intuitive interfaces and improving with every project I build.
-    </p>
-
-    <a class="hero-cta" href="#">Let's Connect</a>
-
-    <p style="margin-top:20px; font-size:13px; color:rgba(240,237,232,0.5);">
-      High school student · Learning UI/UX & development · Building real projects
-    </p>
-
+    <p style="color: var(--muted); margin-top: 20px;">High School Student · Aurora, IL</p>
   </div>
 </div>
+
+<section id="projects">
+  <div class="container">
+    <div class="title">Selected Work</div>
+    <div class="grid">
+      <div class="tile">
+        <div class="tag">Portfolio</div>
+        <h3>Personal Website</h3>
+        <p style="font-size: 13px; color: var(--muted);">Clean UI focused on typography.</p>
+      </div>
+      <div class="tile">
+        <div class="tag">UI/UX</div>
+        <h3>Interface Study</h3>
+        <p style="font-size: 13px; color: var(--muted);">Exploring spacing and hierarchy.</p>
+      </div>
+      <div class="tile">
+        <div class="tag">Frontend</div>
+        <h3>Web Experiments</h3>
+        <p style="font-size: 13px; color: var(--muted);">Interaction-based builds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="profile">
+  <div class="container">
+    <div class="title">Profile</div>
+    <p style="font-size: 24px; font-weight: 300; line-height: 1.4; max-width: 700px;">
+      Focused on UI/UX and frontend development, building clean, intentional digital experiences that balance aesthetics with functionality.
+    </p>
+  </div>
+</section>
+
+<script>
+// Simple script to handle active state on click
+const navLinks = document.querySelectorAll('.nav-toggle a');
+navLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
